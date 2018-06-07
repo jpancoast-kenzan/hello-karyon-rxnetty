@@ -51,15 +51,17 @@ public class IndexResource implements RequestHandler<ByteBuf, ByteBuf>{
                     public Observable<Void> call(String body) {
                         String instanceId = "";
                         String userdata = "";
+                        String second_ud = "";
 
                         try{
                             instanceId = execCmd("curl http://metadata/computeMetadata/v1/instance/id -H Metadata-Flavor:Google") + execCmd("wget -q -O - http://instance-data/latest/meta-data/instance-id");
                             userdata = System.getenv("USERDATA");
+                            second_ud = System.getenv("second_ud");
 
                         } catch (Exception e){
                             e.printStackTrace();
                         }
-                        response.writeString("<html><head><style>body{text-align:center;font-family:'Lucida Grande'}</style></head><body><img src='http://kenzan.com/wp-content/themes/kenzan/images/logo-reg.png' /><h2>Example Spinnaker Application</h2><h3>Instance Id " + instanceId + "</h3><h3>$USERDATA ENV VAR: " + userdata + "</h3></body></html>");
+                        response.writeString("<html><head><style>body{text-align:center;font-family:'Lucida Grande'}</style></head><body><img src='http://kenzan.com/wp-content/themes/kenzan/images/logo-reg.png' /><h2>Example Spinnaker Application</h2><h3>Instance Id " + instanceId + "</h3><h3>$USERDATA ENV VAR: " + userdata + "</h3><br/><h3>second_ud: " + second_ud + "</h3></body></html>");
                         return response.close();
                     }
                 });
